@@ -59,7 +59,8 @@ const seenSyncContributionSize = 512 // Maximum of SYNC_COMMITTEE_SIZE as specif
 const seenExitSize = 100
 const seenProposerSlashingSize = 100
 const badBlockSize = 1000
-const syncMetricsInterval = 10 * time.Second
+// Test delay by 6 blocks
+const syncMetricsInterval = 10 * time.Second * 6
 
 var (
 	// Seconds in one epoch.
@@ -237,6 +238,10 @@ func (s *Service) Start() {
 	s.maintainPeerStatuses()
 	s.resyncIfBehind()
 
+
+	// Calling Sleep method (commented out since I think we just multiply syncMetricsInterval by the number of delayed blocks for now).
+	// // time.Sleep(4 * time.Second)
+	
 	// Update sync metrics.
 	async.RunEvery(s.ctx, syncMetricsInterval, s.updateMetrics)
 }
